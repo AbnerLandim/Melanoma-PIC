@@ -1,0 +1,131 @@
+.phraseA {
+    position: absolute;
+    width: 473px;
+    height: 566px;
+    left: 55%;
+    top: 45%;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    line-height: 42px;
+    display: flex;
+    color: #958080;
+}
+
+.phraseB {
+    position: absolute;
+    width: 473px;
+    height: 566px;
+    left: 56.5%;
+    top: 51%;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    display: flex;
+    color: #858585;
+}
+
+.login-container {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 10%;
+    background: #FFFBF3;
+    border-radius: 6px;
+}
+
+.login-container section.form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container section.form form {
+    margin-top: 30px;
+}
+
+.login-container section.form form h1 {
+    color: gray;
+    top: 50%;
+    left: 8.5%;
+    position: absolute;
+}
+
+.login-container section.form form a {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    color: gray;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s;
+    padding-bottom: 10px;
+    position: absolute;
+}
+
+.login-container section.form form a:hover {
+    opacity: 0.8;
+}
+
+button:hover {
+    border: 2px solid #D22D2D;
+    filter: brightness(75%);
+    transition: filter 0.3s;
+}
+
+input {
+    border: 2px solid #A8A8A8;
+    box-sizing: border-box;
+    padding: 0 24px;
+    width: 378px;
+    height: 45px;
+    position: absolute;
+}
+
+button {
+    background: #FF5C5C;
+    border: 2px solid #FF5C5C;
+    box-sizing: border-box;
+    width: 378px;
+    height: 45px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 21px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+}
+
+#email-input {
+    top: 56%;
+    left: 8.5%;
+}
+
+#pass-input {
+    top: 65%;
+    left: 8.5%;
+}
+
+#signin-butt {
+    top: 74%;
+    left: 8.5%;
+}
+
+#forgot {
+    top: 80%;
+    left: 19%;
+}
+
+#create {
+    top: 88%;
+    left: 18%;
+}
