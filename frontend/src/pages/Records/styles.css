@@ -1,0 +1,115 @@
+.outer-container {
+    width: 100%;
+    max-width: 1180px;
+    padding: 0 30px;
+    margin: 32px auto;
+}
+
+.outer-container header {
+    display: flex;
+    align-items: center;
+}
+
+.outer-container header span {
+    font-size: 20px;
+    margin-left: 24px;
+    color: #41414d;
+}
+
+.outer-container header img {
+    width: 16%;
+    height: 16%;
+}
+
+.outer-container header a {
+    width: 260px;
+    margin-left: auto;
+    margin-top: 0;
+}
+
+.outer-container header button {
+    height: 52px;
+    width: 52px;
+    border: 1px solid #FF802E;
+    margin-left: 16px;
+    padding: 16px;
+    background-color: rgb(255, 176, 123);
+    
+}
+
+.outer-container header button:hover {
+    filter: brightness(75%);
+    transition: filter 0.2s;
+}
+
+.outer-container h1 {
+    margin-top: 80px;
+    margin-bottom: 24px;
+    color: #41414d;
+}
+
+.outer-container ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 24px;
+    list-style: none;
+}
+
+.outer-container ul li {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.outer-container ul li button {
+    border: 0;
+    border-radius: 0;
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: transparent;
+}
+
+.outer-container ul li button:hover {
+    opacity: 0.7;
+}
+
+.outer-container ul li strong {
+    display: block;
+    margin-bottom: 16px;
+    color: #41414d;
+}
+
+.outer-container ul li p + strong {
+    margin-top: 32px;
+}
+
+.outer-container ul li p {
+    color: #737370;
+    line-height: 21px;
+    font-size: 16px;
+}
+
+.buttonS {
+    background: #FF5C5C;
+    border: 2px solid #FF5C5C;
+    box-sizing: border-box;
+    width: 400px;
+    height: 45px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 21px;
+    color: white;
+    font-weight: 500;
+    padding: 1%;
+    border-radius: 50px;
+}
+
+.buttonS:hover {
+    border: 2px solid #D22D2D;
+    filter: brightness(75%);
+    transition: filter 0.2s;
+}

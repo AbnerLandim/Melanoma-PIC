@@ -21,39 +21,48 @@
     border-radius: 6px;
 }
 
-.box-container .content section {
+.box-container .column1 select, input, label, a {
     width: 100%;
-    max-width: 500px;
-}
-
-.box-container .content section h1 {
-    margin: 64px 0 32px;
-    font-size: 32px;
-    color: gray;
-}
-
-.box-container .content form {
-    width: 100%;
-    max-width: 378px;
-}
-
-.box-container .content form input, select {
-    margin: 3px;
-    width: 378px;
-    height: 45px;
-    line-height: 21px;
-    padding: 0 24px;
-}
-
-.box-container .content form .input-group {
+    max-width: 400px;
     display: flex;
+    padding: 0 24px;
+    margin: 1%;
 }
 
-.button {
+.box-container .column1 a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.box-container .column2 select, input, label, a, .buttonQ {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    padding: 0 24px;
+    margin: 1%;
+}
+
+.box-container .column2 a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.box-container h2 {
+    margin: 1%;
+    max-width: 400px;
+    padding-left: 50px;
+    padding-top: 40px;
+}
+
+.buttonQ {
     background: #FF5C5C;
     border: 2px solid #FF5C5C;
     box-sizing: border-box;
-    width: 378px;
+    width: 400px;
     height: 45px;
     display: inline-block;
     text-align: center;
@@ -63,28 +72,22 @@
     color: white;
     font-weight: bold;
     position: absolute;
+    padding: 1%;
 }
 
-.button:hover {
+.buttonQ:hover {
     border: 2px solid #D22D2D;
     filter: brightness(75%);
     transition: filter 0.3s;
 }
 
-.back-link {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    color: gray;
-    font-size: 18px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: opacity 0.3s;
-    padding-bottom: 10px;
-    position: absolute;
+input[type="range"]::-moz-range-thumb {
+    height: 25px;
+    width: 15px;
+    background: #FF802E;
 }
 
-.back-link:hover {
-    opacity: 0.8;
+input[type="date"] {
+    color: rgb(129, 128, 128);
+    height: 45px;
 }
-

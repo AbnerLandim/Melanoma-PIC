@@ -13,9 +13,9 @@ export default function Login() {
                 <img src={logoImg} alt="Melskin" />
                 <form>
                     <h1>Start session</h1>
-                    <input placeholder="Email" id="email-input" />
-                    <input placeholder="Password" id="pass-input" type="password" />
-                    <button type="submit" id="signin-butt">Sign in</button>
+                    <input placeholder="Email" id="email-input" className="input" required />
+                    <input placeholder="Password" id="pass-input" type="password" className="input" required />
+                    <button type="submit" id="signin-butt" className="button">Sign in</button>
                     <Link to="/pass-reset" id="forgot">
                         Forgot password?
                     </Link>

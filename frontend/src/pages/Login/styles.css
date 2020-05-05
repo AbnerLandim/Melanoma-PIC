@@ -43,7 +43,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .login-container section.form form {
@@ -74,13 +74,13 @@
     opacity: 0.8;
 }
 
-button:hover {
+.button:hover {
     border: 2px solid #D22D2D;
     filter: brightness(75%);
     transition: filter 0.3s;
 }
 
-input {
+.input {
     border: 2px solid #A8A8A8;
     box-sizing: border-box;
     padding: 0 24px;
@@ -89,7 +89,7 @@ input {
     position: absolute;
 }
 
-button {
+.button {
     background: #FF5C5C;
     border: 2px solid #FF5C5C;
     box-sizing: border-box;
