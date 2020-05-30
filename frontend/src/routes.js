@@ -5,6 +5,7 @@ import Login from  './pages/Login';
 import Register from './pages/Register';
 import Questionnaire from './pages/Questionnaire';
 import Records from './pages/Records';
+import PassReset from './pages/PassReset';
 
 export default function Routes() {
     return(
@@ -14,6 +15,7 @@ export default function Routes() {
                 <Route path="/register" component={Register} />
                 <Route path="/questionnaire" component={Questionnaire} />
                 <Route path="/" exact component={Records} />
+                <Route path="/pass-reset" component={PassReset} />
             </Switch>
         </BrowserRouter>
     );
