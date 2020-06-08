@@ -1,4 +1,4 @@
-.box-container {
+.new-record {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -11,7 +11,7 @@
     border-radius: 6px;
 }
 
-.box-container .content {
+.new-record .content {
     width: 100%;
     padding: 50px;
     display: flex;
@@ -21,33 +21,55 @@
     border-radius: 6px;
 }
 
-.box-container .content section {
+.new-record .content section {
     width: 100%;
     max-width: 500px;
 }
 
-.box-container .content section h1 {
-    margin: 64px 0 32px;
+.new-record .content a {
+    color: gray;
+    font: 400 18px Roboto, sans-serif;
+    margin: 6px;
+}
+
+.new-record .content section h1 {
+    margin: 28px;
     font-size: 32px;
     color: gray;
 }
 
-.box-container .content form {
+.new-record .content form {
     width: 100%;
     max-width: 378px;
 }
 
-.box-container .content form input, form select {
+.new-record .content form label, img {
+    color: gray;
+    font: 400 18px Roboto, sans-serif;
+    margin: 6px;
+} 
+
+.new-record .content form input, select, textarea {
     margin: 3px;
     width: 378px;
     height: 45px;
     line-height: 21px;
     padding: 0 24px;
-    font: 400 16px Roboto, sans-serif;
 }
 
-.box-container .content form .input-group {
+.new-record .content .img-group {
     display: flex;
+}
+
+input[type='file'] {
+    color: transparent;
+}
+
+.new-record .content .img-group img {
+    max-width: 15;
+    max-height: 15;
+    width: 50%;
+    height: 50%;
 }
 
 .button {
@@ -63,7 +85,8 @@
     line-height: 21px;
     color: white;
     font-weight: bold;
-    position: absolute;
+    
+    margin: 3px;
 }
 
 .button:hover {
@@ -83,9 +106,21 @@
     transition: opacity 0.3s;
     padding-bottom: 10px;
     position: absolute;
+    margin: 3px;
 }
 
 .back-link:hover {
     opacity: 0.8;
+}
+
+img {
+    height: 80%;
+    width: 80%;
+}
+
+.file-input {
+    color: gray;
+    font: 400 18px Roboto, sans-serif;
+    border: none;
 }
 

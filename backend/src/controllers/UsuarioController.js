@@ -1,4 +1,5 @@
 const connection = require('../database/connection');
+const nodemailer = require('nodemailer');
 
 module.exports = {
 
@@ -7,6 +8,56 @@ module.exports = {
         return res.json(usuarios);
     },
 
+    async passReset(req, res) {
+
+        const mailClient = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'picmelskin@gmail.com',
+                pass: 'Melanoma2020'
+            }
+        });
+
+        const email_usuario = req.body.user;
+
+        const new_pass = (Math.floor(100000 + Math.random() * 900000)).toString();
+
+        const user = await connection('tbl_usuario')
+            .where('email_usuario', email_usuario)
+            .select('nome_usuario')
+            .first()
+
+        await connection('tbl_usuario')
+            .where('email_usuario', email_usuario)
+            .update({
+                senha_usuario: new_pass,
+                thisKeyIsSkipped: undefined
+            })
+        
+        const mailOptions = {
+            from: 'picmelskin@gmail.com',
+            to: email_usuario,
+            subject: 'Password Reset',
+            text: 'Hello, ' + user.nome_usuario + '! Here is your new password: "' + new_pass + '". Regards from Melskin team :)'
+        };
+
+        mailClient.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                alert(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        })
+
+        return res.json(
+            {
+                new_pass,
+                user
+            }
+        );
+    },
+
+    //receive the data
     async create(req, res) {
         const { nome_usuario,
             sobrenome_usuario,
@@ -19,6 +70,7 @@ module.exports = {
             pais_usuario,
             estado_usuario,
             cidade_usuario,
+            role_usuario,
             pergunta_1_fk,
             pergunta_2_fk,
             pergunta_3_fk,
@@ -37,49 +89,62 @@ module.exports = {
             pergunta_16,
             pergunta_17 } = req.body;
 
-        await connection('tbl_questionario').insert({
-            pergunta_1_fk,
-            pergunta_2_fk,
-            pergunta_3_fk,
-            pergunta_4,
-            pergunta_5,
-            pergunta_6,
-            pergunta_7,
-            pergunta_8,
-            pergunta_9,
-            pergunta_10,
-            pergunta_11,
-            pergunta_12,
-            pergunta_13,
-            pergunta_14,
-            pergunta_15,
-            pergunta_16,
-            pergunta_17,
-        })
+        //check existence
+        const usuario = await connection('tbl_usuario')
+            .where('email_usuario', email_usuario)
+            .select('id_usuario', 'nome_usuario')
+            .first();
 
-        var max_questionario = await connection('tbl_questionario').max('id_questionario as maxId').first();
-        var questionario_fk = max_questionario.maxId;
+        if (usuario) {
+            return res.status(400).json({ error: 'This email is already registered.' });
+        }
+        else {
+            //register user
+            await connection('tbl_questionario').insert({
+                pergunta_1_fk,
+                pergunta_2_fk,
+                pergunta_3_fk,
+                pergunta_4,
+                pergunta_5,
+                pergunta_6,
+                pergunta_7,
+                pergunta_8,
+                pergunta_9,
+                pergunta_10,
+                pergunta_11,
+                pergunta_12,
+                pergunta_13,
+                pergunta_14,
+                pergunta_15,
+                pergunta_16,
+                pergunta_17,
+            })
 
-        await connection('tbl_usuario').insert({
-            nome_usuario,
-            sobrenome_usuario,
-            email_usuario,
-            senha_usuario,
-            cpf_usuario,
-            sexo_usuario,
-            data_nascimento_usuario,
-            telefone_usuario,
-            pais_usuario,
-            estado_usuario,
-            cidade_usuario,
-            questionario_fk,
-        })
+            var max_questionario = await connection('tbl_questionario').max('id_questionario as maxId').first();
+            var questionario_fk = max_questionario.maxId;
 
-        console.log(questionario_fk);
+            await connection('tbl_usuario').insert({
+                nome_usuario,
+                sobrenome_usuario,
+                email_usuario,
+                senha_usuario,
+                cpf_usuario,
+                sexo_usuario,
+                data_nascimento_usuario,
+                telefone_usuario,
+                pais_usuario,
+                estado_usuario,
+                cidade_usuario,
+                questionario_fk,
+                role_usuario,
+            })
 
-        return res.json({
-            nome_usuario,
-            questionario_fk,
-        });
+            console.log(questionario_fk);
+
+            return res.json({
+                nome_usuario,
+                questionario_fk,
+            });
+        }
     }
 };
