@@ -7,9 +7,11 @@ import ForgotPass from './pages/ForgotPass';
 import SignUp1 from './pages/SignUp1';
 import SignUp2 from './pages/SignUp2';
 import Quest1 from './pages/Quest1';
+import Camera from './pages/Camera';
 
 const Routes = createAppContainer(
     createStackNavigator({
+        Camera,
         Quest1,
         SignUp2,
         SignUp1,
