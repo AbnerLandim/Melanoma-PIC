@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import './styles.css';
 import api from '../../services/api';
+import smartApi from '../../services/smartApi';
 import logoImg from '../../assets/logo.svg';
 
 export default function NewRecord() {
@@ -17,7 +18,6 @@ export default function NewRecord() {
     const user_id = localStorage.getItem('user_id');
     const history = new useHistory();
 
-
     async function handleNewRecord(e) {
         e.preventDefault();
 
@@ -25,15 +25,42 @@ export default function NewRecord() {
             nome: title,
             descricao: description,
             imagem: image,
-            risco: ''
+        }
+
+        const analise = {
+            image: image,
         }
 
         try {
-            await api.post('envios', data, {
+            const criar_envio = await api.post('envios', data, {
                 headers: {
                     Authorization: user_id,
                 }
-            })
+            });
+
+            console.log(criar_envio.data);
+
+            const asymmetry = await smartApi.post('asymmetry', analise);
+
+            console.log(asymmetry.data);
+
+            const colors = await smartApi.post('colors', analise);
+
+            console.log(colors.data);
+
+            const analyzed_data = {
+                id_envio_fk: criar_envio.data.id,
+                assimetria: asymmetry.data.asymmetry,
+                cores: colors.data.colors.toString(),
+                risco: "0.6",
+            }
+
+            console.log(analyzed_data)
+            
+            const new_record_id = await api.post('analise', analyzed_data);
+
+            console.log(new_record_id.data);
+
             history.push('/');
         } catch (err) {
             alert('Error creating record. Try again.');

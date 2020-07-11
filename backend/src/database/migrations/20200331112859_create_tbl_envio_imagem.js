@@ -8,7 +8,6 @@ exports.up = function(knex) {
         table.string('descricao');
         table.string('imagem').notNullable();
         table.timestamp('timestamp_envio').notNullable();
-        table.decimal('risco',{precision:6}); //valor de 0 a 1 que representa a precisão da rede neural
         table.foreign('id_usuario_fk').references('tbl_usuario.id_usuario'); 
     });
 };

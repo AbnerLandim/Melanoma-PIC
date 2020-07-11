@@ -8,8 +8,6 @@ import api from '../../services/api';
 
 export default function PassReset() {
 
-    const [newPass, setNewPass] = useState('');
-    const [user, setUser] = useState('');
     const history = new useHistory();
 
     async function handleReset(e) {
@@ -18,21 +16,15 @@ export default function PassReset() {
             //reset pass inside db
             await api.post('reset-senha', {
                 user: document.getElementById('email').value
-            }).then(res => {
-                setNewPass(res.data.new_pass);
-                setUser(res.data.user.nome_usuario);
             })
-            console.log(document.getElementById('email').value);
 
         } catch (err) {
             alert('Error reseting password. Try again.');
         }
 
         history.push('/login');
-        localStorage.clear();
     }
-    console.log(newPass);
-    console.log(user);
+    
     return (
         <div className="outer-div">
             <div className="entries">
@@ -52,5 +44,4 @@ export default function PassReset() {
             </div>
         </div>
     );
-
 }

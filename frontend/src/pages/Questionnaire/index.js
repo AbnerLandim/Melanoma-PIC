@@ -65,6 +65,8 @@ export default function Questionnaire() {
             pergunta_17,
         }
 
+        console.log(data);
+
         try {
             const response = await api.post('usuarios', data);
             history.push('/login');

@@ -43,7 +43,7 @@ module.exports = {
 
         mailClient.sendMail(mailOptions, function (error, info) {
             if (error) {
-                alert(error);
+                console.log(error);
             } else {
                 console.log('Email sent: ' + info.response);
             }
@@ -59,35 +59,36 @@ module.exports = {
 
     //receive the data
     async create(req, res) {
-        const { nome_usuario,
-            sobrenome_usuario,
-            email_usuario,
-            senha_usuario,
-            cpf_usuario,
-            sexo_usuario,
-            data_nascimento_usuario,
-            telefone_usuario,
-            pais_usuario,
-            estado_usuario,
-            cidade_usuario,
-            role_usuario,
-            pergunta_1_fk,
-            pergunta_2_fk,
-            pergunta_3_fk,
-            pergunta_4,
-            pergunta_5,
-            pergunta_6,
-            pergunta_7,
-            pergunta_8,
-            pergunta_9,
-            pergunta_10,
-            pergunta_11,
-            pergunta_12,
-            pergunta_13,
-            pergunta_14,
-            pergunta_15,
-            pergunta_16,
-            pergunta_17 } = req.body;
+        const { 
+                nome_usuario,
+                sobrenome_usuario,
+                email_usuario,
+                senha_usuario,
+                cpf_usuario,
+                sexo_usuario,
+                data_nascimento_usuario,
+                telefone_usuario,
+                pais_usuario,
+                estado_usuario,
+                cidade_usuario,
+                role_usuario,
+                pergunta_1_fk,
+                pergunta_2_fk,
+                pergunta_3_fk,
+                pergunta_4,
+                pergunta_5,
+                pergunta_6,
+                pergunta_7,
+                pergunta_8,
+                pergunta_9,
+                pergunta_10,
+                pergunta_11,
+                pergunta_12,
+                pergunta_13,
+                pergunta_14,
+                pergunta_15,
+                pergunta_16,
+                pergunta_17 } = req.body;
 
         //check existence
         const usuario = await connection('tbl_usuario')

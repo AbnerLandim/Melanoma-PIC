@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
+import Popup from 'reactjs-popup';
+import Chart from 'react-google-charts';
 
 import './styles.css';
 import logo from '../../assets/logo.png';
@@ -21,7 +23,7 @@ export default function Records() {
             api.get('envios')
                 .then(response => {
                     setRecords(response.data);
-                })
+                })   
         }
         else {
             api.get('envios_usuario', {
@@ -69,39 +71,104 @@ export default function Records() {
             <ul>
                 {
                     user_role == 1 ?
-                    (
-                        records.map(record => (
-                            <li key={record.id_envio_imagem}>
-                                <strong>USER:</strong>
-                                <p>{record.nome_usuario}</p>
-                                <strong>RECORD:</strong>
-                                <p>{record.nome}</p>
-                                <strong>DESCRIPTION:</strong>
-                                <p>{record.descricao}</p>
-                                <strong>RISK:</strong>
-                        <p>{record.risco}</p>
-                                <button onClick={() => handleDeleteRecord(record.id_envio_imagem)} type="button">
-                                    <FiTrash2 size={20} color="a8a8b3" />
-                                </button>
-                            </li>
-                        ))
-                    ):
-                    (
-                        records.map(record => (
-                            <li key={record.id_envio_imagem}>
-                                <strong>RECORD:</strong>
-                                <p>{record.nome}</p>
-                                <strong>DESCRIPTION:</strong>
-                                <p>{record.descricao}</p>
-                                <strong>RISK:</strong>
-                                <p>{record.risco}</p>
-                                <button type="button">
-                                    <FiTrash2 size={20} color="a8a8b3" />
-                                </button>
-                            </li>
-                        ))
-                    )
-                    
+                        (
+                            records.map(record => (
+                                <Popup
+                                    trigger=
+                                    {
+                                        <button className="inv-butt">
+                                            <li key={record.id_envio_imagem}>
+                                                <strong>USER:</strong>
+                                                <p>{record.nome_usuario}</p>
+                                                <strong>RECORD:</strong>
+                                                <p>{record.nome}</p>
+                                                <strong>DESCRIPTION:</strong>
+                                                <p>{record.descricao}</p>
+                                                <button onClick={() => handleDeleteRecord(record.id_envio_imagem)} type="button">
+                                                    <FiTrash2 size={20} color="a8a8b3" />
+                                                </button>
+                                            </li>
+                                        </button>
+                                    }
+                                    modal
+                                    closeOnDocumentClick
+                                >
+                                    <div className="analysis-container">
+                                        <h3>{record.nome_usuario} - {record.timestamp_envio}</h3>
+                                        <img src={record.imagem} alt={record.id_envio_imagem} />
+                                        <Chart
+                                            width={'300px'}
+                                            height={'300px'}
+                                            chartType="PieChart"
+                                            loader={<div>Loading Chart...</div>}
+                                            data={[
+                                                ['Task', 'Hours per Day'],
+                                                ['Work', 1],
+                                                ['Eat', 1],
+                                                ['Commute', 1],
+                                                ['Watch TV', 1],
+                                                ['Sleep', 1],
+                                            ]}
+                                            options={{
+                                                title: 'Main Colors',
+                                                titleTextStyle: {
+                                                    color: '#000000',
+                                                    fontName: 'Roboto',
+                                                    fontSize: 16,
+                                                    bold: true,  
+                                                    italic: false,
+                                                },
+                                                fontName: "Roboto",
+                                                pieSliceText: "none",
+                                                tooltip: {
+                                                    showColorCode: true,
+                                                    text: 'none',
+                                                },
+                                                slices: [{ color: '#76368d' },
+                                                         { color: '#b187c1' },
+                                                         { color: '#deb8e8' }],
+                                                legend: {position: 'none'},
+                                                pieHole: 0.4,
+                                            }}
+                                            rootProps={{ 'data-testid': '3' }}
+                                        />
+                                        <strong>Melanoma Risk:</strong>
+                                        <p>{Math.round(record.risco*100)}%</p>
+                                        <strong>Asymmetry:</strong>
+                                        <p>{Math.round(record.assimetria*100)}%</p>
+                                    </div>
+                                </Popup>
+                            ))
+                        ) :
+                        (
+                            records.map(record => (
+                                <Popup
+                                    trigger=
+                                    {
+                                        <button className="inv-butt">
+                                            <li key={record.id_envio_imagem}>
+                                                <strong>RECORD:</strong>
+                                                <p>{record.nome}</p>
+                                                <strong>DESCRIPTION:</strong>
+                                                <p>{record.descricao}</p>
+                                                <button onClick={() => handleDeleteRecord(record.id_envio_imagem)} type="button">
+                                                    <FiTrash2 size={20} color="a8a8b3" />
+                                                </button>
+                                            </li>
+                                        </button>
+                                    }
+                                    modal
+                                    closeOnDocumentClick
+                                >
+                                    <span>Meter um IF aqui pra caso tenha o dado, mostrar</span><br />
+                                    <span>Meter um IF aqui pra caso tenha o dado, mostrar</span><br />
+                                    <span>Envio de número {record.id_envio_imagem}</span><br />
+                                    <span>Meter um IF aqui pra caso tenha o dado, mostrar</span><br />
+                                    <span>Meter um IF aqui pra caso tenha o dado, mostrar</span><br />
+                                </Popup>
+                            ))
+                        )
+
                 }
             </ul>
         </div>

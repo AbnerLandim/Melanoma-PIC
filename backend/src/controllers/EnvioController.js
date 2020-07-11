@@ -9,7 +9,7 @@ module.exports = {
 
         const envios = await connection('tbl_envio_imagem')
             .join('tbl_usuario', 'tbl_usuario.id_usuario', '=', 'tbl_envio_imagem.id_usuario_fk')
-            //.join('tbl_questionario','tbl_questionario.id_questionario','=','tbl_usuario.questionario_fk')
+            .join('tbl_analise','tbl_analise.id_envio_fk','=','tbl_envio_imagem.id_envio_imagem')
             .limit(5)
             .offset((page - 1) * 5)
             .select([
@@ -22,6 +22,7 @@ module.exports = {
                 'tbl_usuario.estado_usuario',
                 'tbl_usuario.cidade_usuario',
                 'tbl_envio_imagem.*',
+                'tbl_analise.*',
                 //'tbl_questionario.*'
             ]);
 
@@ -45,7 +46,6 @@ module.exports = {
             descricao,
             imagem,
             timestamp_envio,
-            risco:''
         });
 
         return res.json({
