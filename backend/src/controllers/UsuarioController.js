@@ -13,8 +13,8 @@ module.exports = {
         const mailClient = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'picmelskin@gmail.com',
-                pass: 'Melanoma2020'
+                user: '',
+                pass: ''
             }
         });
 
