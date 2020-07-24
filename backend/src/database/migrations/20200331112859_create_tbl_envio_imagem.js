@@ -7,7 +7,7 @@ exports.up = function(knex) {
         table.string('nome');
         table.string('descricao');
         table.string('imagem').notNullable();
-        table.timestamp('timestamp_envio').notNullable();
+        table.string('timestamp_envio').notNullable();
         table.foreign('id_usuario_fk').references('tbl_usuario.id_usuario'); 
     });
 };

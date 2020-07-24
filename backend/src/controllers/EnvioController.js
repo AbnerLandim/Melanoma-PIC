@@ -30,6 +30,12 @@ module.exports = {
 
         return res.json(envios);
     },
+    async plot(req, res) {
+
+        const data = await connection.raw("SELECT substr(timestamp_envio, 0, 11) as 'data', count(timestamp_envio) as 'registros' from tbl_envio_imagem GROUP by substr(timestamp_envio, 0, 11)");
+        return res.json(data);
+        
+    },
     async create(req, res) {
         const {
             nome,
@@ -38,7 +44,19 @@ module.exports = {
         } = req.body;
 
         const id_usuario_fk = req.headers.authorization;
-        const timestamp_envio = new Date().toUTCString();
+
+        function getTimestamp() {
+            const day = (new Date()).getDate() < 10 ? '0'+(new Date()).getDate() : (new Date()).getDate();
+            const month = (new Date()).getMonth() < 10 ? '0'+(new Date()).getMonth() : (new Date()).getMonth();
+            const year = (new Date()).getFullYear();
+            const hour = (new Date().getUTCHours() - 3) < 10 ? '0'+(new Date().getUTCHours() - 3) : (new Date().getUTCHours() - 3);
+            const minute = (new Date()).getUTCMinutes() < 10 ? '0'+(new Date()).getUTCMinutes() : (new Date()).getUTCMinutes();
+            const second = (new Date()).getUTCSeconds() < 10 ? '0'+(new Date()).getUTCSeconds() : (new Date()).getUTCSeconds();
+
+            return (day +'/'+ month +'/'+ year +' '+ hour +':'+ minute +':'+ second).toString();
+        }
+
+        const timestamp_envio = getTimestamp();
 
         const [id] = await connection('tbl_envio_imagem').insert({
             id_usuario_fk,

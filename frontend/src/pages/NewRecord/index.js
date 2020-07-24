@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
+import Loading from 'react-loading';
 import './styles.css';
 import api from '../../services/api';
 import smartApi from '../../services/smartApi';
@@ -11,6 +12,7 @@ export default function NewRecord() {
     const [title, setTitle] = useState([]);
     const [description, setDescription] = useState([]);
     const [image, setImage] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const Compress = require('compress.js');
 
@@ -20,6 +22,8 @@ export default function NewRecord() {
 
     async function handleNewRecord(e) {
         e.preventDefault();
+
+        setIsLoading(true);
 
         const data = {
             nome: title,
@@ -48,11 +52,16 @@ export default function NewRecord() {
 
             console.log(colors.data);
 
+            const risk = await smartApi.post('risk', analise);
+
+            console.log(risk.data);
+
             const analyzed_data = {
                 id_envio_fk: criar_envio.data.id,
+                id_usuario_fk: user_id,
                 assimetria: asymmetry.data.asymmetry,
                 cores: colors.data.colors.toString(),
-                risco: "0.6",
+                risco: risk.data.risk,
             }
 
             console.log(analyzed_data)
@@ -60,6 +69,8 @@ export default function NewRecord() {
             const new_record_id = await api.post('analise', analyzed_data);
 
             console.log(new_record_id.data);
+
+            setIsLoading(false);
 
             history.push('/');
         } catch (err) {
@@ -100,37 +111,48 @@ export default function NewRecord() {
                         Back to home
                     </Link>
                 </section>
+                
+                {
+                    isLoading ?
+                    (
+                        <div className="loading">
+                            <Loading type={"cylon"} color={"#FF802E"} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} />
+                            
+                            <a>Collecting data...</a>
+                        </div>
+                    ) : (
+                            <form onSubmit={handleNewRecord} >
+                                <input
+                                    placeholder="Title"
+                                    required
+                                    value={title}
+                                    onChange={e => setTitle(e.target.value)}
+                                />
 
-                <form onSubmit={handleNewRecord} >
-                    <input
-                        placeholder="Title"
-                        required
-                        value={title}
-                        onChange={e => setTitle(e.target.value)}
-                    />
+                                <textarea
+                                    placeholder="Description"
+                                    value={description}
+                                    onChange={e => setDescription(e.target.value)}
+                                />
 
-                    <textarea
-                        placeholder="Description"
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                    />
+                                <label >Choose an image:</label>
 
-                    <label >Choose an image:</label>
+                                <div className="img-group">
+                                    <input
+                                        type="file"
+                                        name="file"
+                                        className="file-input"
+                                        onChange={e => onFileUpload(e)}
+                                        required
+                                    />
 
-                    <div className="img-group">
-                        <input
-                            type="file"
-                            name="file"
-                            className="file-input"
-                            onChange={e => onFileUpload(e)}
-                            required
-                        />
+                                    <img src="" alt="" id="preview" />
+                                </div>
 
-                        <img src="" alt="" id="preview" />
-                    </div>
-
-                    <button type="submit" className="button">Create record</button>
-                </form>
+                                <button type="submit" className="button">Create record</button>
+                            </form>
+                        )
+                }
             </div>
         </div>
     );

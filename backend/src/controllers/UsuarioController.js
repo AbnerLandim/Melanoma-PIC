@@ -57,6 +57,31 @@ module.exports = {
         );
     },
 
+    async plot(req, res) {
+
+        const data = await connection.raw("\
+        SELECT\
+            CASE\
+                WHEN (round((julianday('now') - julianday(tbl_usuario.data_nascimento_usuario))/365,2) < 18 AND tbl_usuario.sexo_usuario = 'False') THEN 'Under Age Female'\
+                WHEN (round((julianday('now') - julianday(tbl_usuario.data_nascimento_usuario))/365,2) BETWEEN 18 AND 35 AND tbl_usuario.sexo_usuario = 'False') THEN 'Young Adult Female'\
+                WHEN (round((julianday('now') - julianday(tbl_usuario.data_nascimento_usuario))/365,2) BETWEEN 36 AND 55 AND tbl_usuario.sexo_usuario = 'False') THEN 'Adult Female'\
+                WHEN (round((julianday('now') - julianday(tbl_usuario.data_nascimento_usuario))/365,2) > 55 AND tbl_usuario.sexo_usuario = 'False') THEN 'Elderly Female'\
+                WHEN (round((julianday('now') - julianday(tbl_usuario.data_nascimento_usuario))/365,2) < 18 AND tbl_usuario.sexo_usuario = 'True') THEN 'Under Age Male'\
+                WHEN (round((julianday('now') - julianday(tbl_usuario.data_nascimento_usuario))/365,2) BETWEEN 18 AND 35 AND tbl_usuario.sexo_usuario = 'True') THEN 'Young Adult Male'\
+                WHEN (round((julianday('now') - julianday(tbl_usuario.data_nascimento_usuario))/365,2) BETWEEN 36 AND 55 AND tbl_usuario.sexo_usuario = 'True') THEN 'Adult Male'\
+                WHEN (round((julianday('now') - julianday(tbl_usuario.data_nascimento_usuario))/365,2) > 55 AND tbl_usuario.sexo_usuario = 'True') THEN 'Elderly Male'\
+            END AS age_bin,\
+            count(sexo_usuario) FILTER(where sexo_usuario = 'False') as 'female_qty',\
+            count(sexo_usuario) FILTER(where sexo_usuario = 'True') as 'male_qty',\
+            round(avg(tbl_analise.risco*100),2) as 'avrg_risk'\
+        from tbl_usuario\
+            join tbl_analise on tbl_usuario.id_usuario = tbl_analise.id_usuario_fk\
+            GROUP BY age_bin\
+            ORDER BY avrg_risk DESC");
+
+        return res.json(data);
+    },
+
     //receive the data
     async create(req, res) {
         const { 

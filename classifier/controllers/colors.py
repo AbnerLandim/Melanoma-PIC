@@ -16,6 +16,7 @@ def getColors(b64str):
         encoded_data = image_b64['image'].split(',')[1]
         np_array = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
         img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         return img
 
     def get_colors(image, number_of_colors, show_chart):

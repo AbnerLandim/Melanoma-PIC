@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FiPower, FiTrash2 } from 'react-icons/fi';
+import { FiPower, FiTrash2, FiBarChart } from 'react-icons/fi';
 import Popup from 'reactjs-popup';
 import Chart from 'react-google-charts';
 
@@ -23,7 +23,7 @@ export default function Records() {
             api.get('envios')
                 .then(response => {
                     setRecords(response.data);
-                })   
+                })
         }
         else {
             api.get('envios_usuario', {
@@ -61,6 +61,9 @@ export default function Records() {
                 <img src={logo} alt="Melskin" />
                 <span>Welcome, {user_name}</span>
                 <Link className="buttonS" to="/records/new">Add new record</Link>
+                <Link className='report-button' to="report">
+                    <FiBarChart size={18} color="#fff" />
+                </Link> 
                 <button type="button" onClick={handleLogout} placeholder="Log out">
                     <FiPower size={18} color="#fff" />
                 </button>
@@ -94,48 +97,45 @@ export default function Records() {
                                     closeOnDocumentClick
                                 >
                                     <div className="analysis-container">
-                                        <h3>{record.nome_usuario} - {record.timestamp_envio}</h3>
-                                        <img src={record.imagem} alt={record.id_envio_imagem} />
-                                        <Chart
-                                            width={'300px'}
-                                            height={'300px'}
-                                            chartType="PieChart"
-                                            loader={<div>Loading Chart...</div>}
-                                            data={[
-                                                ['Task', 'Hours per Day'],
-                                                ['Work', 1],
-                                                ['Eat', 1],
-                                                ['Commute', 1],
-                                                ['Watch TV', 1],
-                                                ['Sleep', 1],
-                                            ]}
-                                            options={{
-                                                title: 'Main Colors',
-                                                titleTextStyle: {
-                                                    color: '#000000',
-                                                    fontName: 'Roboto',
-                                                    fontSize: 16,
-                                                    bold: true,  
-                                                    italic: false,
-                                                },
-                                                fontName: "Roboto",
-                                                pieSliceText: "none",
-                                                tooltip: {
-                                                    showColorCode: true,
-                                                    text: 'none',
-                                                },
-                                                slices: [{ color: '#76368d' },
-                                                         { color: '#b187c1' },
-                                                         { color: '#deb8e8' }],
-                                                legend: {position: 'none'},
-                                                pieHole: 0.4,
-                                            }}
-                                            rootProps={{ 'data-testid': '3' }}
-                                        />
+                                        <h3>{record.nome_usuario} - {record.timestamp_envio.toString()}</h3>
+                                        <div className="graph-data">
+                                            <img src={record.imagem} alt={record.id_envio_imagem} />
+                                        
+                                            <Chart
+                                                width={'300px'}
+                                                height={'300px'}
+                                                chartType="PieChart"
+                                                loader={<div>Loading Chart...</div>}
+                                                data={[
+                                                    ['Color', 'Count'],
+                                                    ...record.cores.split(',').map((color, index) => [color.toString(), 1]),
+                                                ]}
+                                                options={{
+                                                    title: 'Main Colors',
+                                                    titleTextStyle: {
+                                                        color: '#41414d',
+                                                        fontName: 'Roboto',
+                                                        fontSize: 16,
+                                                        bold: true,
+                                                        italic: false,
+                                                    },
+                                                    fontName: "Roboto",
+                                                    pieSliceText: "none",
+                                                    tooltip: {
+                                                        showColorCode: true,
+                                                        text: 'none',
+                                                    },
+                                                    slices: [...record.cores.split(',').map(paint => ({ color: paint.toString() }))],
+                                                    legend: { position: 'none' },
+                                                    pieHole: 0.4,
+                                                }}
+                                                rootProps={{ 'data-testid': '3' }}
+                                            />
+                                        </div>
                                         <strong>Melanoma Risk:</strong>
-                                        <p>{Math.round(record.risco*100)}%</p>
+                                        <p>{Math.round(record.risco * 100)}%</p>
                                         <strong>Asymmetry:</strong>
-                                        <p>{Math.round(record.assimetria*100)}%</p>
+                                        <p>{Math.round((record.assimetria > 1 ? 1 : record.assimetria) * 100)}%</p>
                                     </div>
                                 </Popup>
                             ))
